@@ -6,11 +6,13 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
+import { createId } from "@paralleldrive/cuid2";
+import { relations } from "drizzle-orm";
 
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => createId()),
   name: text("name"),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
@@ -60,3 +62,22 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   }),
 );
+
+export const products = pgTable("product", {
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id),
+});
+
+export const productsRelations = relations(products, ({ one }) => ({
+  userId: one(users, {
+    fields: [products.userId],
+    references: [users.id],
+  }),
+}));

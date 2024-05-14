@@ -1,10 +1,17 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { create } from "@/app/user/products/SubmitAction";
+import { create } from "@/app/user/add/SubmitAction";
+import { auth } from "@/auth";
 
-function AddProductForm() {
-  const createWithUserId = create.bind(null, "user1");
+async function AddProductForm() {
+  const session = await auth();
+
+  if (!session?.user) return null;
+
+  const id = session.user.id;
+
+  const createWithUserId = create.bind(null, id ?? "");
 
   return (
     <form

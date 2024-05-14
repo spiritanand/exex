@@ -1,6 +1,9 @@
 "use server";
 
 import { z, ZodError } from "zod";
+import { db } from "@/lib/db";
+import { products } from "@/lib/db/schema";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -18,21 +21,11 @@ export async function create(userId: string, formData: FormData) {
       description: formData.get("description"),
     });
 
-    console.log({
+    await db.insert(products).values({
+      name,
+      description,
       userId,
     });
-
-    console.log(
-      "Creating product with name:",
-      name,
-      "and description:",
-      description,
-    );
-
-    return {
-      status: "success",
-      message: "Product created successfully",
-    };
   } catch (e) {
     // In case of a ZodError (caused by our validation) we're adding issues to our response
     if (e instanceof ZodError) {
@@ -46,9 +39,13 @@ export async function create(userId: string, formData: FormData) {
       };
     }
 
+    console.log({ e });
+
     return {
       status: "error",
       message: "Something went wrong. Please try again.",
     };
+  } finally {
+    redirect("/user/products");
   }
 }
