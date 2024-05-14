@@ -9,7 +9,7 @@ Next.js 14 (App Router) repo for an Ecommerce app using NeonDB (Postgres) and Ne
 - [x] Safe env variables (T3 Env)
 - [x] Form for adding new products (Server Actions)
 - [x] Add authentication (Next-Auth)
-- [] Set up DB schema
+- [x] Set up DB schema
 - [] Basic UI for displaying all products using DB
 - [] "taint" (server-only), security
 
