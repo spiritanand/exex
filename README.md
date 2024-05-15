@@ -13,6 +13,33 @@ Next.js 14 (App Router) repo for an Ecommerce app using NeonDB (Postgres) and Ne
 - [x] Basic UI for displaying all products using DB
 - [x] "taint" (server-only), security
 
+## Getting Started locally
+
+1. Clone the repo
+
+```bash
+git clone
+```
+
+2. Install dependencies
+
+```bash
+cd exex
+pnpm i
+```
+
+3. Copy `.env.example` to `.env` and fill in the values
+
+```bash
+cp .env.example .env
+```
+
+4. Run the app
+
+```bash
+pnpm dev
+```
+
 ## Challenges for you
 
 - landing page
